@@ -34,6 +34,7 @@ final class Cocktailize {
 	public function __construct() {
 		$this->define_constants();
 		$this->import_files();
+		$this->cocktailize_text();
 
 		// Menu.
 		add_action( 'admin_menu', 'cocktailize_admin_menu' );
@@ -42,7 +43,7 @@ final class Cocktailize {
 		if ( wp_doing_ajax() ) {
 			add_action( 'wp_ajax_cocktailize_execute', 'cocktailize_ajax_execute' );
 		}
-	}
+    }
 
 
 	/**
@@ -88,6 +89,54 @@ final class Cocktailize {
 		require_once COCKTAILIZE_DIR . 'src/menu.php';
 		require_once COCKTAILIZE_DIR . 'src/class-assets.php';
 	}
+
+    /**
+     * Adds Cocktails names.
+     *
+     * Supports:
+     *
+     * - Post Title;
+     * - Excerpt;
+     * - Post Content;
+     * - Comment Text;
+     * - Text Widget.
+     *
+     * @since 0.1.0
+     */
+	private function cocktailize_text() {
+	    function get_cocktails( $first_letter ) {
+            $request_url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=$first_letter";
+            $response = wp_remote_get( $request_url );
+            if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
+                return json_decode( wp_remote_retrieve_body( $response ), true )['drinks'];
+            } else {
+                wp_die( $response );
+            }
+        }
+        $cocktailize_letter = get_option( 'cocktailize-letter' );
+	    $cocktails = get_cocktails( $cocktailize_letter );
+
+        $filters = [
+            'the_title',       // Post Title.
+            'get_the_excerpt', // Excerpt.
+            'the_content',     // Post Content.
+            'comment_text',    // Comment Text.
+            'widget_text'      // Text Widget
+        ];
+        if ( $cocktails ) {
+            foreach ( $filters as $filter ) {
+                add_filter( $filter, function ($txt) use ($cocktailize_letter, $cocktails ) {
+                    $pattern = "/(?<=^|\s|(?<!\"cocktailize-replaced\")>)$cocktailize_letter\w+/i";
+
+                    while ( preg_match( $pattern, $txt ) ) {
+                        $replacement = '<b class="cocktailize-replaced">' . $cocktails[array_rand($cocktails)]['strDrink'] . '</b>';
+                        $txt = preg_replace( $pattern, $replacement, $txt, 1 );
+                    }
+                    return $txt;
+                });
+            }
+        }
+    }
 }
 
 

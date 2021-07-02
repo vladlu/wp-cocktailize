@@ -10,6 +10,11 @@ A WordPress plugin that cocktailizes your WordPress website 🍹.
 
 * cocktailize-letter
 
+## Cocktailize Notes
+
+* There are cocktails not for all letters. For example, there are no cocktails for "u" letter. 
+  When cocktails are missing, do nothing.
+
 #
 
 Version: 0.1.0
