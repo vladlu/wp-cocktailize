@@ -14,4 +14,4 @@ A WordPress plugin that cocktailizes your WordPress website 🍹.
 
 Version: 0.1.0
 
-License: [MIT](https://github.com/vladlu/cocktail/blob/master/LICENSE)
+License: [MIT](https://github.com/vladlu/wp-cocktailize/blob/master/LICENSE)
