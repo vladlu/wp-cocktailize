@@ -14,7 +14,9 @@ A WordPress plugin that cocktailizes your WordPress website 🍹.
 
 ### WP Options
 
-* `wp-cocktailize-settings` - `['enabled', 'letter']`
+* `wp-cocktailize-cocktailization-settings` - `['enabled', 'letter']`
+* `wp-cocktailize-shortcode-settings` - `['show-thumbnails']`
+
 
 ### WP Filters
 

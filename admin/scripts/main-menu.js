@@ -11,10 +11,10 @@ jQuery( $ => {
     /*
      * Defines variables.
      */
-    let $form           = $( '.wp-cocktailize-form' ),
-        $input_enabled  = $( '.wp-cocktailize-input-enabled' ),
-        $input_letter   = $( '.wp-cocktailize-input-letter' ),
-        $cocktail_emoji = $( '.wp-cocktailize-emoji' );
+    let $form          = $( '.wp-cocktailize-form' ),
+        $inputEnabled  = $( '.wp-cocktailize-input-enabled' ),
+        $inputLetter   = $( '.wp-cocktailize-input-letter' ),
+        $cocktailEmoji = $( '.wp-cocktailize-emoji' );
 
     /**
      * Sends an AJAX with the form content to the the server for the execution, and displays the result.
@@ -27,10 +27,10 @@ jQuery( $ => {
         event.preventDefault();
 
         let data = {
-            'action':     'cocktailize_execute',
+            'action':     'wp_cocktailize_main_menu',
             'nonceToken':  WPCocktailize.nonceToken,
-            'enabled':     $input_enabled.is(':checked') ? 1 : 0,
-            'letter':      $input_letter.val()
+            'enabled':     $inputEnabled.is(':checked') ? 1 : 0,
+            'letter':      $inputLetter.val()
         };
 
         $.post( {
@@ -38,9 +38,9 @@ jQuery( $ => {
             data: data,
         } )
             .done( () => {
-                $cocktail_emoji.addClass( "wp-cocktailize-bounce" );
+                $cocktailEmoji.addClass( "wp-cocktailize-bounce" );
                 setTimeout( () => {
-                    $cocktail_emoji.removeClass( "wp-cocktailize-bounce" );
+                    $cocktailEmoji.removeClass( "wp-cocktailize-bounce" );
                 }, 1000 );
             });
     });

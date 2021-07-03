@@ -6,7 +6,7 @@
  * Plugin URI:  https://github.com/vladlu/cocktailize
  * Author:      Vladislav Luzan
  * Author URI:  https://vlad.lu/
- * Text Domain: cocktailize
+ * Text Domain: wp-cocktailize
  * License:     MIT
  *
  * @package WP Cocktailize
@@ -35,20 +35,20 @@ final class Cocktailize {
 		$this->define_constants();
 		$this->import_files();
 
-		// Assets.
-        add_action( 'wp_enqueue_scripts',    [ 'WP_Cocktailize_Public_Assets', 'init' ] );
-        add_action( 'admin_enqueue_scripts', [ 'WP_Cocktailize_Admin_Assets', 'init' ] );
+		// Public Assets.
+        add_action( 'wp_enqueue_scripts', [ 'WP_Cocktailize_Public_Assets', 'init' ] );
 
-        // Menu.
-		add_action( 'admin_menu', 'cocktailize_admin_menu' );
+        // Menus.
+		add_action( 'admin_menu', 'wp_cocktailize_admin_menus');
 
 		// AJAX Handler.
 		if ( wp_doing_ajax() ) {
-			add_action( 'wp_ajax_cocktailize_execute', 'cocktailize_ajax_execute' );
-		}
+			add_action( 'wp_ajax_wp_cocktailize_main_menu',              'wp_cocktailize_ajax_main_menu' );
+            add_action( 'wp_ajax_wp_cocktailize_shortcode_settings_menu', 'wp_cocktailize_ajax_shortcode_settings_menu' );
+        }
 
 		// Text Cocktailization.
-        if ( ! is_admin() && get_option( 'wp-cocktailize-settings' )['enabled'] ) {
+        if ( ! is_admin() && get_option( 'wp-cocktailize-cocktailization-settings' )['enabled'] ) {
                 $this->cocktailize_text();
         }
     }
@@ -67,7 +67,7 @@ final class Cocktailize {
 		 * @since 0.1.0
 		 * @var string COCKTAILIZE_URL
 		 */
-		define( 'COCKTAILIZE_URL', plugin_dir_url( __FILE__ ) );
+		define( 'WP_COCKTAILIZE_URL', plugin_dir_url( __FILE__ ) );
 
 		/**
 		 * The filesystem directory path to the plugin.
@@ -75,7 +75,7 @@ final class Cocktailize {
 		 * @since 0.1.0
 		 * @var string COCKTAILIZE_DIR
 		 */
-		define( 'COCKTAILIZE_DIR', plugin_dir_path( __FILE__ ) );
+		define( 'WP_COCKTAILIZE_DIR', plugin_dir_path( __FILE__ ) );
 
 		/**
 		 * The version of the plugin.
@@ -83,7 +83,7 @@ final class Cocktailize {
 		 * @since 0.1.0
 		 * @var string COCKTAILIZE_VERSION
 		 */
-		define( 'COCKTAILIZE_VERSION', get_file_data( __FILE__, [ 'Version' ] )[0] );
+		define( 'WP_COCKTAILIZE_VERSION', get_file_data( __FILE__, [ 'Version' ] )[0] );
 	}
 
 
@@ -93,10 +93,10 @@ final class Cocktailize {
 	 * @since 0.1.0
 	 */
 	private function import_files() {
-		require_once COCKTAILIZE_DIR . 'src/ajax.php';
-		require_once COCKTAILIZE_DIR . 'src/menu.php';
-		require_once COCKTAILIZE_DIR . 'src/class-admin-assets.php';
-        require_once COCKTAILIZE_DIR . 'src/class-public-assets.php';
+		require_once WP_COCKTAILIZE_DIR . 'src/ajax.php';
+		require_once WP_COCKTAILIZE_DIR . 'src/menus.php';
+		require_once WP_COCKTAILIZE_DIR . 'src/admin-assets.php';
+        require_once WP_COCKTAILIZE_DIR . 'src/class-public-assets.php';
     }
 
     /**
@@ -122,7 +122,7 @@ final class Cocktailize {
                 wp_die( $response );
             }
         }
-        $cocktailize_letter = get_option( 'wp-cocktailize-settings' )['letter'];
+        $cocktailize_letter = get_option( 'wp-cocktailize-cocktailization-settings' )['letter'];
 	    $cocktails = get_cocktails( $cocktailize_letter );
 
         $filters = [

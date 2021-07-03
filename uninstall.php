@@ -2,10 +2,10 @@
 /**
  * WP Cocktailize Uninstall
  *
- * Deletes WP Cocktailize options.
+ * Deletes WP Cocktailize options and other data.
  *
- * @package The Guide
- * @version 2.3.0
+ * @package WP Cocktailize
+ * @since 0.1.0
  */
 
 // Exit if accessed directly.
@@ -17,4 +17,5 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 /*
  * Deletes options.
  */
-delete_option( 'wp-cocktailize-settings' );
+delete_option( 'wp-cocktailize-cocktailization-settings' );
+delete_option( 'wp-cocktailize-shortcode-settings' );

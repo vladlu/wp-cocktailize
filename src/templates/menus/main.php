@@ -11,17 +11,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$cocktailize_settings = get_option( 'wp-cocktailize-settings' );
+$wp_cocktailize_cocktailization_settings = get_option( 'wp-cocktailize-cocktailization-settings' );
+
+/*
+ * If option is empty, add default values.
+ */
+if ( ! $wp_cocktailize_cocktailization_settings ) {
+    $wp_cocktailize_cocktailization_settings = [
+        'enabled' => '0',
+        'letter'  => 'a'
+    ];
+    add_option( 'wp-cocktailize-cocktailization-settings', $wp_cocktailize_cocktailization_settings );
+}
 ?>
 
 
-<h1 class="wp-cocktailize-header">Cocktailize website <span class="wp-cocktailize-emoji">🍹</span></h1>
+<h1 class="wp-cocktailize-header">Cocktailize Website <span class="wp-cocktailize-emoji">🍹</span></h1>
 
 <form class="wp-cocktailize-form">
 	<div class="wp-cocktailize-container">
         <label class="wp-cocktailize-checkbox">
             <span>Enable: </span>
-            <input type="checkbox" class="wp-cocktailize-input-enabled" <?php checked( $cocktailize_settings['enabled'] ) ?>>
+            <input type="checkbox" class="wp-cocktailize-input-enabled" <?php checked( $wp_cocktailize_cocktailization_settings['enabled'] ) ?>>
         </label>
     </div>
     <div class="wp-cocktailize-container">
@@ -29,7 +40,7 @@ $cocktailize_settings = get_option( 'wp-cocktailize-settings' );
             <span>Cocktail first letter: </span>
             <select class="wp-cocktailize-input-letter">
                 <?php foreach( range('a', 'z') as $letter):?>
-                   <option <?php selected( $cocktailize_settings['letter'], $letter ) ?>><?php echo $letter ?></option>
+                   <option <?php selected( $wp_cocktailize_cocktailization_settings['letter'], $letter ) ?>><?php echo $letter ?></option>
                 <?php endforeach; ?>
             </select>
         </label>

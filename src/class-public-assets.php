@@ -50,9 +50,9 @@ final class WP_Cocktailize_Public_Assets {
 	private function styles() {
 		wp_enqueue_style(
 		    'wp-cocktailize-public-style',
-            COCKTAILIZE_URL . 'public/styles/style.css',
+            WP_COCKTAILIZE_URL . 'public/styles/style.css',
             [],
-            COCKTAILIZE_VERSION
+            WP_COCKTAILIZE_VERSION
         );
 	}
 }
