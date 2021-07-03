@@ -26,18 +26,18 @@ if ( ! $wp_cocktailize_cocktailization_settings ) {
 ?>
 
 
-<h1 class="wp-cocktailize-header"><?php _e('Cocktailize Website', 'wp-cocktailize') ?><span class="wp-cocktailize-emoji">🍹</span></h1>
+<h1 class="wp-cocktailize-header"><?php _e( 'Cocktailize Website', 'wp-cocktailize' ) ?><span class="wp-cocktailize-emoji">🍹</span></h1>
 
 <form class="wp-cocktailize-form">
 	<div class="wp-cocktailize-container">
         <label class="wp-cocktailize-checkbox">
-            <span><?php _e('Enable', 'wp-cocktailize') ?>: </span>
+            <span><?php _e( 'Enable', 'wp-cocktailize' ) ?>: </span>
             <input type="checkbox" class="wp-cocktailize-input-enabled" <?php checked( $wp_cocktailize_cocktailization_settings['enabled'] ) ?>>
         </label>
     </div>
     <div class="wp-cocktailize-container">
         <label class="wp-cocktailize-basic-input">
-            <span><?php _e('Cocktail first letter', 'wp-cocktailize') ?>: </span>
+            <span><?php _e( 'Cocktail first letter', 'wp-cocktailize' ) ?>: </span>
             <select class="wp-cocktailize-input-letter">
                 <?php foreach( range('a', 'z') as $letter):?>
                    <option <?php selected( $wp_cocktailize_cocktailization_settings['letter'], $letter ) ?>><?php echo $letter ?></option>
@@ -48,7 +48,7 @@ if ( ! $wp_cocktailize_cocktailization_settings ) {
 
 	<div class="wp-cocktailize-container" data-gramm_editor="false">
 		<div class="wp-cocktailize-column">
-			<?php submit_button( 'Save', [ 'primary', 'cocktailize__submit' ] ); ?>
+			<?php submit_button( __( 'Save', 'wp-cocktailize' ), [ 'primary', 'wp-cocktailize-submit' ] ); ?>
 		</div>
 	</div>
 </form>
