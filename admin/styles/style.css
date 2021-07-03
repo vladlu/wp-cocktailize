@@ -1,51 +1,64 @@
-.cocktailize-header {
+.wp-cocktailize-header {
   text-align: center;
   font-size: 32px;
   margin-bottom: 30px;
   line-height: 30px;
 }
 
-.cocktailize-container {
+.wp-cocktailize-container {
   display: flex;
   justify-content: center;
   width: 100%;
   height: 100%;
+  font-size: 14px;
 }
 
-.cocktailize-column {
+.wp-cocktailize-column {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.cocktailize-container p.submit {
+.wp-cocktailize-container p.submit {
   padding-bottom: 0;
   margin-top: 25px
 }
 
-.cocktailize-container .button {
+.wp-cocktailize-container .button {
   width: 200px;
   height: 35px;
   margin-top: 5px;
 }
 
-.cocktailize-container label {
+.wp-cocktailize-container .wp-cocktailize-checkbox {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  margin-bottom: 25px;
+  align-items: center;
+}
+
+.wp-cocktailize-container .wp-cocktailize-checkbox span {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.wp-cocktailize-container .wp-cocktailize-basic-input {
   display: flex;
   flex-direction: column;
   text-align: center;
 }
-.cocktailize-container label span {
-  font-size: 14px;
-  margin-bottom: 25px;
+.wp-cocktailize-container .wp-cocktailize-basic-input span {
+  margin-bottom: 20px;
 }
 
-.cocktailize-bounce img {
+.wp-cocktailize-bounce img {
   animation-duration: 1s;
   animation-iteration-count: 1;
-  animation-name: cocktailize-bounce;
+  animation-name: wp-cocktailize-bounce;
   animation-timing-function: cubic-bezier(0.280, 0.840, 0.420, 1);
 }
-@keyframes cocktailize-bounce {
+@keyframes wp-cocktailize-bounce {
   0%   { transform: scale(1,1)      translateY(0); }
   10%  { transform: scale(1.1,.9)   translateY(0); }
   30%  { transform: scale(.9,1.1)   translateY(-10px); }

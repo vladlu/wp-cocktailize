@@ -1,11 +1,11 @@
 <?php
 /**
- * Assets
+ * Admin Assets
  *
- * Loads assets (JS, CSS), adds data for them etc.
+ * Loads assets (JS, CSS), adds data for them.
  *
- * @package Cocktailize
- * @since 1.0.0
+ * @package WP Cocktailize
+ * @since 0.1.0
  */
 
 // Exit if accessed directly.
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 0.1.0
  */
-final class Cocktailize_Menu_Assets {
+final class WP_Cocktailize_Admin_Assets {
 
 	/**
 	 * Inits.
@@ -38,9 +38,9 @@ final class Cocktailize_Menu_Assets {
 	 * @since 0.1.0
 	 */
 	public function __construct() {
-		$this->styles();
-		$this->scripts();
-		$this->data_to_scripts();
+        $this->styles();
+        $this->scripts();
+        $this->data_to_scripts();
 	}
 
 
@@ -51,7 +51,7 @@ final class Cocktailize_Menu_Assets {
 	 */
 	private function styles() {
 		wp_enqueue_style(
-		    'cocktailize-admin-style',
+		    'wp-cocktailize-admin-style',
             COCKTAILIZE_URL . 'admin/styles/style.css',
             [],
             COCKTAILIZE_VERSION
@@ -66,7 +66,7 @@ final class Cocktailize_Menu_Assets {
 	 */
 	private function scripts() {
 		wp_enqueue_script(
-			'cocktailize-admin-script',
+			'wp-cocktailize-admin-script',
 			COCKTAILIZE_URL . 'admin/scripts/script.js',
 			[ 'jquery' ],
 			COCKTAILIZE_VERSION,
@@ -82,8 +82,8 @@ final class Cocktailize_Menu_Assets {
 	 */
 	private function data_to_scripts() {
 		wp_localize_script(
-			'cocktailize-admin-script',
-			'cocktailize',
+			'wp-cocktailize-admin-script',
+			'WPCocktailize',
 			[
 				'nonceToken' => wp_create_nonce( 'cocktailize-execute' ),
 			]

@@ -11,9 +11,10 @@ jQuery( $ => {
     /*
      * Defines variables.
      */
-    let $form           = $( '.cocktailize__form' ),
-        $input          = $( '.cocktailize__input' ),
-        $cocktail_emoji = $( '.cocktailize__emoji' );
+    let $form           = $( '.wp-cocktailize-form' ),
+        $input_enabled  = $( '.wp-cocktailize-input-enabled' ),
+        $input_letter   = $( '.wp-cocktailize-input-letter' ),
+        $cocktail_emoji = $( '.wp-cocktailize-emoji' );
 
     /**
      * Sends an AJAX with the form content to the the server for the execution, and displays the result.
@@ -27,8 +28,9 @@ jQuery( $ => {
 
         let data = {
             'action':     'cocktailize_execute',
-            'nonceToken':  cocktailize.nonceToken,
-            'letter': $input.val()
+            'nonceToken':  WPCocktailize.nonceToken,
+            'enabled':     $input_enabled.is(':checked') ? 1 : 0,
+            'letter':      $input_letter.val()
         };
 
         $.post( {
@@ -36,9 +38,9 @@ jQuery( $ => {
             data: data,
         } )
             .done( () => {
-                $cocktail_emoji.addClass( "cocktailize-bounce" );
+                $cocktail_emoji.addClass( "wp-cocktailize-bounce" );
                 setTimeout( () => {
-                    $cocktail_emoji.removeClass( "cocktailize-bounce" );
+                    $cocktail_emoji.removeClass( "wp-cocktailize-bounce" );
                 }, 1000 );
             });
     });

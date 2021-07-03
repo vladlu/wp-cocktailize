@@ -17,4 +17,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 /*
  * Deletes options.
  */
-delete_option( 'cocktailize-letter' );
+delete_option( 'wp-cocktailize-settings' );

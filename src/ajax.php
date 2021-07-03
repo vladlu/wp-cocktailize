@@ -2,8 +2,8 @@
 /**
  * AJAX handlers
  *
- * @package Cocktailize
- * @since 1.0.0
+ * @package WP Cocktailize
+ * @since 0.1.0
  */
 
 // Exit if accessed directly.
@@ -23,7 +23,11 @@ function cocktailize_ajax_execute() {
 	 */
 	check_ajax_referer( 'cocktailize-execute', 'nonceToken' );
 
-    update_option( 'cocktailize-letter', $_POST['letter'] );
+	$data = [
+	    'enabled' => $_POST['enabled'],
+        'letter' => $_POST['letter']
+    ];
+    update_option( 'wp-cocktailize-settings', $data );
 
 	wp_die();
 }

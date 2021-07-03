@@ -9,7 +9,7 @@
  * Text Domain: cocktailize
  * License:     MIT
  *
- * @package Cocktailize
+ * @package WP Cocktailize
  * @author  Vladislav Luzan <hey@vlad.lu>
  */
 
@@ -34,15 +34,23 @@ final class Cocktailize {
 	public function __construct() {
 		$this->define_constants();
 		$this->import_files();
-		$this->cocktailize_text();
 
-		// Menu.
+		// Assets.
+        add_action( 'wp_enqueue_scripts',    [ 'WP_Cocktailize_Public_Assets', 'init' ] );
+        add_action( 'admin_enqueue_scripts', [ 'WP_Cocktailize_Admin_Assets', 'init' ] );
+
+        // Menu.
 		add_action( 'admin_menu', 'cocktailize_admin_menu' );
 
 		// AJAX Handler.
 		if ( wp_doing_ajax() ) {
 			add_action( 'wp_ajax_cocktailize_execute', 'cocktailize_ajax_execute' );
 		}
+
+		// Text Cocktailization.
+        if ( ! is_admin() && get_option( 'wp-cocktailize-settings' )['enabled'] ) {
+                $this->cocktailize_text();
+        }
     }
 
 
@@ -87,8 +95,9 @@ final class Cocktailize {
 	private function import_files() {
 		require_once COCKTAILIZE_DIR . 'src/ajax.php';
 		require_once COCKTAILIZE_DIR . 'src/menu.php';
-		require_once COCKTAILIZE_DIR . 'src/class-assets.php';
-	}
+		require_once COCKTAILIZE_DIR . 'src/class-admin-assets.php';
+        require_once COCKTAILIZE_DIR . 'src/class-public-assets.php';
+    }
 
     /**
      * Adds Cocktails names.
@@ -113,7 +122,7 @@ final class Cocktailize {
                 wp_die( $response );
             }
         }
-        $cocktailize_letter = get_option( 'cocktailize-letter' );
+        $cocktailize_letter = get_option( 'wp-cocktailize-settings' )['letter'];
 	    $cocktails = get_cocktails( $cocktailize_letter );
 
         $filters = [
@@ -126,10 +135,10 @@ final class Cocktailize {
         if ( $cocktails ) {
             foreach ( $filters as $filter ) {
                 add_filter( $filter, function ($txt) use ($cocktailize_letter, $cocktails ) {
-                    $pattern = "/(?<=^|\s|(?<!\"cocktailize-replaced\")>)$cocktailize_letter\w+/i";
+                    $pattern = "/(?<=^|\s|(?<!\"wp-cocktailize-replaced\")>)$cocktailize_letter\w+/i";
 
                     while ( preg_match( $pattern, $txt ) ) {
-                        $replacement = '<b class="cocktailize-replaced">' . $cocktails[array_rand($cocktails)]['strDrink'] . '</b>';
+                        $replacement = '<b class="wp-cocktailize-replaced">' . $cocktails[array_rand($cocktails)]['strDrink'] . '</b>';
                         $txt = preg_replace( $pattern, $replacement, $txt, 1 );
                     }
                     return $txt;
