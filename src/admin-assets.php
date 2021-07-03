@@ -54,7 +54,7 @@ function wp_cocktailize_load_main_menu_assets() {
                 'wp-cocktailize-admin-main-menu',
                 'WPCocktailize',
                 [
-                    'nonceToken' => wp_create_nonce( 'main-menu' ),
+                    'nonceToken' => wp_create_nonce( 'wp-cocktailize-main-menu' ),
                 ]
             );
         }
@@ -94,7 +94,7 @@ function wp_cocktailize_load_shortcode_settings_menu_assets() {
                 'wp-cocktailize-admin-shortcode-settings-menu',
                 'WPCocktailize',
                 [
-                    'nonceToken' => wp_create_nonce( 'shortcode-settings-menu' ),
+                    'nonceToken' => wp_create_nonce( 'wp-cocktailize-shortcode-settings-menu' ),
                 ]
             );
         }

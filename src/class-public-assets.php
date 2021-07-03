@@ -39,6 +39,8 @@ final class WP_Cocktailize_Public_Assets {
 	 */
 	public function __construct() {
         $this->styles();
+        $this->scripts();
+        $this->data_to_scripts();
 	}
 
 
@@ -55,4 +57,30 @@ final class WP_Cocktailize_Public_Assets {
             WP_COCKTAILIZE_VERSION
         );
 	}
+
+
+    private function scripts() {
+        wp_enqueue_script(
+            'wp-cocktailize-public',
+            WP_COCKTAILIZE_URL . 'public/scripts/script.js',
+            [ 'jquery' ],
+            WP_COCKTAILIZE_VERSION,
+            true
+        );
+    }
+
+
+    /**
+     * Loads data to scripts.
+     */
+    private function data_to_scripts() {
+        wp_localize_script(
+            'wp-cocktailize-public',
+            'WPCocktailize',
+            [
+                'nonceToken' => wp_create_nonce( 'wp-cocktailize-public' ),
+                'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+            ]
+        );
+    }
 }

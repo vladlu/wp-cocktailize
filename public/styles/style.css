@@ -1,3 +1,13 @@
 .wp-cocktailize-replaced {
   font-style: italic;
 }
+
+.wp-cocktailize-shortcode-cocktail-container {
+  text-align: center;
+}
+
+.wp-cocktailize-shortcode-cocktail-container .wp-cocktailize-shortcode-cocktail-link {
+  font-size: 24px !important;
+  padding: 5px;
+  cursor: pointer;
+}

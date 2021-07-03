@@ -34,12 +34,11 @@ jQuery( $ => {
         $.post( {
             url: ajaxurl,
             data: data,
-        } )
-            .done( () => {
-                $cocktailEmoji.addClass( "wp-cocktailize-bounce" );
-                setTimeout( () => {
-                    $cocktailEmoji.removeClass( "wp-cocktailize-bounce" );
-                }, 1000 );
-            });
+        } ).done( () => {
+            $cocktailEmoji.addClass( "wp-cocktailize-bounce" );
+            setTimeout( () => {
+                $cocktailEmoji.removeClass( "wp-cocktailize-bounce" );
+            }, 1000 );
+        });
     });
 });

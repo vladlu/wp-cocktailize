@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 0.1.0
  */
-final class Cocktailize {
+final class WP_Cocktailize {
 
 	/**
 	 * Constructor.
@@ -35,16 +35,18 @@ final class Cocktailize {
 		$this->define_constants();
 		$this->import_files();
 
-		// Public Assets.
+        // Public Assets.
         add_action( 'wp_enqueue_scripts', [ 'WP_Cocktailize_Public_Assets', 'init' ] );
 
         // Menus.
 		add_action( 'admin_menu', 'wp_cocktailize_admin_menus');
 
-		// AJAX Handler.
+		// Shortcodes.
+        new WP_Cocktailize_Shortcodes();
+
+        // AJAX.
 		if ( wp_doing_ajax() ) {
-			add_action( 'wp_ajax_wp_cocktailize_main_menu',              'wp_cocktailize_ajax_main_menu' );
-            add_action( 'wp_ajax_wp_cocktailize_shortcode_settings_menu', 'wp_cocktailize_ajax_shortcode_settings_menu' );
+            new WP_Cocktailize_Ajax( $this );
         }
 
 		// Text Cocktailization.
@@ -93,11 +95,30 @@ final class Cocktailize {
 	 * @since 0.1.0
 	 */
 	private function import_files() {
-		require_once WP_COCKTAILIZE_DIR . 'src/ajax.php';
-		require_once WP_COCKTAILIZE_DIR . 'src/menus.php';
-		require_once WP_COCKTAILIZE_DIR . 'src/admin-assets.php';
+        require_once WP_COCKTAILIZE_DIR . 'src/admin-assets.php';
+        require_once WP_COCKTAILIZE_DIR . 'src/menus.php';
+        require_once WP_COCKTAILIZE_DIR . 'src/class-ajax.php';
         require_once WP_COCKTAILIZE_DIR . 'src/class-public-assets.php';
+        require_once WP_COCKTAILIZE_DIR . 'src/class-shortcodes.php';
     }
+
+
+    /**
+     * Retrieve the cocktails from the first letter.
+     *
+     * @param $first_letter string First letter of cocktails.
+     * @return array Cocktails.
+     */
+    public function get_cocktails( string $first_letter ): array {
+        $request_url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=$first_letter";
+        $response = wp_remote_get( $request_url );
+        if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
+            return json_decode( wp_remote_retrieve_body( $response ), true )['drinks'];
+        } else {
+            wp_die( $response );
+        }
+    }
+
 
     /**
      * Adds Cocktails names.
@@ -113,17 +134,8 @@ final class Cocktailize {
      * @since 0.1.0
      */
 	private function cocktailize_text() {
-	    function get_cocktails( $first_letter ) {
-            $request_url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=$first_letter";
-            $response = wp_remote_get( $request_url );
-            if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
-                return json_decode( wp_remote_retrieve_body( $response ), true )['drinks'];
-            } else {
-                wp_die( $response );
-            }
-        }
         $cocktailize_letter = get_option( 'wp-cocktailize-cocktailization-settings' )['letter'];
-	    $cocktails = get_cocktails( $cocktailize_letter );
+	    $cocktails = $this->get_cocktails( $cocktailize_letter );
 
         $filters = [
             'the_title',       // Post Title.
@@ -153,7 +165,8 @@ add_action(
 	'init',
 	function() {
 		if ( current_user_can( 'list_users' ) ) {
-			new Cocktailize();
+		    global $wp_cocktailize;
+            $wp_cocktailize = new WP_Cocktailize();
 		}
 	}
 );
