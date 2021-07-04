@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Cocktailize
  * Description: Cocktailize your WordPress website 🍹
- * Version:     0.1.0
+ * Version:     0.1.1
  * Plugin URI:  https://github.com/vladlu/cocktailize
  * Author:      Vladislav Luzan
  * Author URI:  https://vlad.lu/
@@ -184,9 +184,6 @@ final class WP_Cocktailize {
 add_action(
 	'init',
 	function() {
-		if ( current_user_can( 'list_users' ) ) {
-		    global $wp_cocktailize;
-            $wp_cocktailize = new WP_Cocktailize();
-		}
+        new WP_Cocktailize();
 	}
 );
