@@ -3,11 +3,56 @@
 }
 
 .wp-cocktailize-shortcode-cocktail-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.wp-cocktailize-shortcode-cocktail-container {
   text-align: center;
 }
 
-.wp-cocktailize-shortcode-cocktail-container .wp-cocktailize-shortcode-cocktail-link {
-  font-size: 24px !important;
+.wp-cocktailize-shortcode-cocktail-letters .wp-cocktailize-shortcode-cocktail-link {
+  font-size: 24px;
   padding: 5px;
   cursor: pointer;
+  font-style: normal;
+}
+
+.wp-cocktailize-shortcode-cocktail-cocktails {
+  display: flex;
+  flex-direction: column;
+}
+
+.wp-cocktailize-shortcode-cocktail-cocktails .wp-cocktailize-shortcode-cocktail-link {
+  font-size: 18px;
+  padding: 5px;
+  cursor: pointer;
+  font-style: normal;
+}
+
+.wp-cocktailize-shortcode-cocktail-cocktails .wp-cocktailize-shortcode-cocktail-link:first-child {
+  padding-top: 40px;
+}
+.wp-cocktailize-shortcode-cocktail-cocktails .wp-cocktailize-shortcode-cocktail-link:last-child {
+  padding-bottom: 20px;
+}
+
+.wp-cocktailize-shortcode-cocktail-cocktail-info > *:first-child {
+  padding-top: 30px;
+}
+.wp-cocktailize-shortcode-cocktail-cocktail-info > *:last-child {
+  padding-bottom: 20px;
+}
+.wp-cocktailize-shortcode-cocktail-cocktail-info .wp-cocktailize-cocktail-thumb {
+  margin-bottom: 30px;
+}
+.wp-cocktailize-shortcode-cocktail-cocktail-info .wp-cocktailize-cocktail-name {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.wp-cocktailize-shortcode-cocktail-cocktail-info {
+  display: flex;
+  flex-direction: column;
 }

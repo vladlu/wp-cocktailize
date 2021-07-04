@@ -49,7 +49,8 @@ class WP_Cocktailize_Ajax {
 	private function add_ajax_events() {
 
 		$ajax_events_nopriv = [
-			'get_cocktails'
+            'public_init',
+            'get_cocktails'
 		];
 
 		foreach ( $ajax_events_nopriv as $ajax_event ) {
@@ -69,7 +70,40 @@ class WP_Cocktailize_Ajax {
 
 
     /**
+     * Returns initial data.
+     *
+     * No nonce check.
+     *
+     * @since 0.1.0
+     */
+    public function public_init() {
+        $wp_cocktailize_shortcode_settings = get_option( 'wp-cocktailize-shortcode-settings' );
+
+        /*
+         * If option is empty, add default values.
+         */
+        if ( ! $wp_cocktailize_shortcode_settings ) {
+            $wp_cocktailize_shortcode_settings = [
+                'show-thumbnails' => '1',
+            ];
+            add_option( 'wp-cocktailize-shortcode-settings', $wp_cocktailize_shortcode_settings );
+        }
+
+        $data = [
+            'nonceToken'     => wp_create_nonce( 'wp-cocktailize-public' ),
+            'showThumbnails' => $wp_cocktailize_shortcode_settings['show-thumbnails']
+        ];
+
+        echo wp_json_encode( $data );
+
+        wp_die();
+    }
+
+
+    /**
      * AJAX handler to get cocktails.
+     *
+     * Accepts: $_POST['letter']
      *
      * @since 0.1.0
      */
@@ -88,6 +122,9 @@ class WP_Cocktailize_Ajax {
 
     /**
      * AJAX handler to save Main menu settings.
+     *
+     * Accepts: $_POST['enabled']
+     *          $_POST['letter']
      *
      * @since 0.1.0
      */
@@ -109,6 +146,8 @@ class WP_Cocktailize_Ajax {
 
     /**
      * AJAX handler to save Shortcode Settings menu settings.
+     *
+     * Accepts: $_POST['show-thumbnails']
      *
      * @since 0.1.0
      */

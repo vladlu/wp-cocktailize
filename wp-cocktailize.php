@@ -34,6 +34,7 @@ final class WP_Cocktailize {
 	public function __construct() {
 		$this->define_constants();
 		$this->import_files();
+		$this->load_plugin_textdomain();
 
         // Public Assets.
         add_action( 'wp_enqueue_scripts', [ 'WP_Cocktailize_Public_Assets', 'init' ] );
@@ -50,7 +51,11 @@ final class WP_Cocktailize {
         }
 
 		// Text Cocktailization.
-        if ( ! is_admin() && get_option( 'wp-cocktailize-cocktailization-settings' )['enabled'] ) {
+        if (
+            ! is_admin() &&
+            get_option( 'wp-cocktailize-cocktailization-settings' ) &&
+            get_option( 'wp-cocktailize-cocktailization-settings' )['enabled']
+        ) {
                 $this->cocktailize_text();
         }
     }
@@ -67,7 +72,7 @@ final class WP_Cocktailize {
 		 * The URL to the plugin.
 		 *
 		 * @since 0.1.0
-		 * @var string COCKTAILIZE_URL
+		 * @var string WP_COCKTAILIZE_URL
 		 */
 		define( 'WP_COCKTAILIZE_URL', plugin_dir_url( __FILE__ ) );
 
@@ -75,15 +80,16 @@ final class WP_Cocktailize {
 		 * The filesystem directory path to the plugin.
 		 *
 		 * @since 0.1.0
-		 * @var string COCKTAILIZE_DIR
+		 * @var string WP_COCKTAILIZE_DIR
 		 */
 		define( 'WP_COCKTAILIZE_DIR', plugin_dir_path( __FILE__ ) );
 
-		/**
+
+        /**
 		 * The version of the plugin.
 		 *
 		 * @since 0.1.0
-		 * @var string COCKTAILIZE_VERSION
+		 * @var string WP_COCKTAILIZE_VERSION
 		 */
 		define( 'WP_COCKTAILIZE_VERSION', get_file_data( __FILE__, [ 'Version' ] )[0] );
 	}
@@ -100,6 +106,20 @@ final class WP_Cocktailize {
         require_once WP_COCKTAILIZE_DIR . 'src/class-ajax.php';
         require_once WP_COCKTAILIZE_DIR . 'src/class-public-assets.php';
         require_once WP_COCKTAILIZE_DIR . 'src/class-shortcodes.php';
+    }
+
+
+    /**
+     * Loads textdomain.
+     *
+     * @since 0.1.0
+     */
+    private function load_plugin_textdomain() {
+        load_plugin_textdomain(
+            'wp-cocktailize',
+            false,
+            dirname( plugin_basename( __FILE__ ) ) . '/languages'
+        );
     }
 
 

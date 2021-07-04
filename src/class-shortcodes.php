@@ -57,8 +57,8 @@ class WP_Cocktailize_Shortcodes {
      * @return string
      */
     public function shortcode_cocktail(): string {
-        $out = '<div class="wp-cocktailize-shortcode-cocktail-container">
-                <div class="wp-cocktailize-shortcode-cocktail-subcontainer">';
+        $out = '<span class="wp-cocktailize-shortcode-cocktail-container">
+                <span class="wp-cocktailize-shortcode-cocktail-letters">';
         foreach( range('a', 'z') as $num => $letter) {
             if ( $num > 0 ) {
                 $out .= " ";
@@ -68,8 +68,10 @@ class WP_Cocktailize_Shortcodes {
             }
             $out .= "<a class='wp-cocktailize-shortcode-cocktail-link'>$letter</a>";
         }
-        $out .= "</div>
-                 </div>";
+        $out .= '</span>
+                 <span class="wp-cocktailize-shortcode-cocktail-cocktails"></span>
+                 <span class="wp-cocktailize-shortcode-cocktail-cocktail-info"></span>
+                 </span>';
         return $out;
     }
 }

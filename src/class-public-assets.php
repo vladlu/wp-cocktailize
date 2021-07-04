@@ -77,10 +77,7 @@ final class WP_Cocktailize_Public_Assets {
         wp_localize_script(
             'wp-cocktailize-public',
             'WPCocktailize',
-            [
-                'nonceToken' => wp_create_nonce( 'wp-cocktailize-public' ),
-                'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-            ]
+            [ 'ajaxurl' => admin_url( 'admin-ajax.php' ) ]
         );
     }
 }
